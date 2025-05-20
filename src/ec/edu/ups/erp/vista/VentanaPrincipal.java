@@ -5,7 +5,7 @@ import java.awt.*;
 public class VentanaPrincipal extends Frame {
     private Panel panelSesion;
 
-    private Button botonSecion;
+    private Button botonSesion;
     private Button botonRegistarUsuario;
     private Button botonsalir;
 
@@ -14,16 +14,11 @@ public class VentanaPrincipal extends Frame {
         setSize(500, 500);
         setLocationRelativeTo(null);
 
-
-        panelSesion = new Panel();
-        panelSesion.setLayout(new FlowLayout(FlowLayout.CENTER));
-        add(panelSesion);
-
-        botonSecion= new Button ("Iniciar Sesión");
+        botonSesion= new Button ("Iniciar Sesión");
         botonRegistarUsuario = new Button ("Registrar Usuario");
         botonsalir = new Button ("Salir");
 
-        panelSesion.add(botonSecion);
+        panelSesion.add(botonSesion);
         panelSesion.add(botonRegistarUsuario);
         panelSesion.add(botonsalir);
 
@@ -32,14 +27,4 @@ public class VentanaPrincipal extends Frame {
     }
 
 
-    private Button iniciarSesion;
-    private Button registrarSesion;
-    private Button salirSesion;
-
-    public VentanaPrincipal() {
-        setTitle("--SISTEMA AWT--");
-        setSize(500, 500);
-        setLocationRelativeTo(null);
-
-    }
 }
