@@ -1,27 +1,35 @@
 package ec.edu.ups.erp.model;
 
-public class Producto implements Calculable{
+public class Producto implements Calculable {
+    private String id;
     private String nombre;
     private double precioUnitario;
-    private int cantidad;
 
-    public Producto(String nombre, double precioUnitario, int cantidad) {
+    public Producto(String id, String nombre, double precioUnitario) {
+        this.id = id;
         this.nombre = nombre;
         this.precioUnitario = precioUnitario;
-        this.cantidad = cantidad;
     }
 
-    public String getNombre() { return nombre; }
-    public double getPrecioUnitario() { return precioUnitario; }
-    public int getCantidad() { return cantidad; }
+    public String getId() {
+        return id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public double getPrecioUnitario() {
+        return precioUnitario;
+    }
 
     @Override
     public double calcularCostoTotal() {
-        return precioUnitario * cantidad;
+        return precioUnitario; // Costo unitario para un producto simple
     }
 
     @Override
     public String toString() {
-        return nombre + " - $" + precioUnitario + " x " + cantidad;
+        return "Producto [ID=" + id + ", Nombre=" + nombre + ", Precio Unitario=$" + precioUnitario + "]";
     }
 }

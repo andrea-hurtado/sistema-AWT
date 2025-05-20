@@ -1,53 +1,55 @@
 package ec.edu.ups.erp.model;
 
-import java.util.ArrayList;
-import java.util.List;
-public class SolicitudCompra extends Documento implements Calculable{
-    private String departamento;
+import java.util.HashMap;
+import java.util.Map;
+
+public class SolicitudCompra extends Documento implements Calculable {
+
     private EstadoSolicitud estado;
-    private List<Producto> productos;
+    // Mapa Producto → Cantidad
+    private final Map<Producto, Integer> productos = new HashMap<>();
 
-    public SolicitudCompra(String codigo, String departamento) {
-        super(codigo);
-        this.departamento = departamento;
-        this.estado = EstadoSolicitud.SOLICITADA;
-        this.productos = new ArrayList<>();
-    }
-
-    public void agregarProducto(Producto p) {
-        productos.add(p);
-    }
-
-    public List<Producto> getProductos() {
-        return productos;
-    }
-
-    public void cambiarEstado(EstadoSolicitud estado) {
-        this.estado = estado;
+    public SolicitudCompra(String numero) {
+        super(numero);
+        this.estado = EstadoSolicitud.EN_REVISIÓN;
     }
 
     public EstadoSolicitud getEstado() {
         return estado;
     }
 
+    public void setEstado(EstadoSolicitud estado) {
+        this.estado = estado;
+    }
+
+    public void agregarProducto(Producto producto, int cantidad) {
+        productos.merge(producto, cantidad, Integer::sum);
+    }
+
+    public Map<Producto, Integer> getProductos() {
+        return productos;
+    }
+
     @Override
     public double calcularCostoTotal() {
         double total = 0;
-        for (Producto p : productos) {
-            total += p.calcularCostoTotal();
+        for (Map.Entry<Producto, Integer> entry : productos.entrySet()) {
+            total += entry.getKey().getPrecioUnitario() * entry.getValue();
         }
         return total;
     }
 
     @Override
-    public void mostrarResumen() {
-        System.out.println("Solicitud " + codigo + " (" + estado + ")");
-        System.out.println("Departamento: " + departamento);
-        System.out.println("Productos:");
-        for (Producto p : productos) {
-            System.out.println(" - " + p);
+    public void mostrarDetalle() {
+        System.out.println("Solicitud #" + getNumero() + " - Estado: " + estado);
+        for (Map.Entry<Producto, Integer> entry : productos.entrySet()) {
+            System.out.println("Producto: " + entry.getKey().getNombre() + " | Cantidad: " + entry.getValue() + " | Precio unitario: $" + entry.getKey().getPrecioUnitario());
         }
         System.out.println("Total: $" + calcularCostoTotal());
     }
-}
 
+    @Override
+    public String toString() {
+        return "SolicitudCompra [Número=" + getNumero() + ", Estado=" + estado + ", Total=$" + calcularCostoTotal() + "]";
+    }
+}
