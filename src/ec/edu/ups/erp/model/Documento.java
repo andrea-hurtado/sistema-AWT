@@ -1,15 +1,19 @@
 package ec.edu.ups.erp.model;
 
 public abstract class Documento {
-    protected String codigo;
+    private String numero;
 
-    public Documento(String codigo) {
-        this.codigo = codigo;
+    public Documento(String numero) {
+        this.numero = numero;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public String getNumero() {
+        return numero;
     }
 
-    public abstract void mostrarResumen();
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public abstract void mostrarDetalle();
 }
