@@ -34,19 +34,45 @@ public class Main {
 
     private static void ejecutarOpcion(int opcion) {
         switch (opcion) {
-            case 1 -> gestor.registrarProveedor();
-            case 2 -> gestor.registrarProducto();
-            case 3 -> gestor.registrarSolicitud();
-            case 4 -> gestor.listarProveedores();
-            case 5 -> gestor.listarProductos();
-            case 6 -> gestor.listarSolicitudes();
-            case 7 -> gestor.buscarProveedorPorID();
-            case 8 -> gestor.buscarProductoPorNombre();
-            case 9 -> gestor.buscarSolicitudPorNumero();
-            case 13 -> gestor.aprobarRechazarSolicitud();
-            case 14 -> gestor.calcularTotalSolicitud();
-            case 15 -> System.out.println("Saliendo del sistema. ¡Hasta pronto!");
-            default -> System.out.println("Opción no válida. Intente de nuevo.");
+            case 1:
+                gestor.registrarProveedor();
+                break;
+            case 2:
+                gestor.registrarProducto();
+                break;
+            case 3:
+                gestor.registrarSolicitud();
+                break;
+            case 4:
+                gestor.listarProveedores();
+                break;
+            case 5:
+                gestor.listarProductos();
+                break;
+            case 6:
+                gestor.listarSolicitudes();
+                break;
+            case 7:
+                gestor.buscarProveedorPorID();
+                break;
+            case 8:
+                gestor.buscarProductoPorNombre();
+                break;
+            case 9:
+                gestor.buscarSolicitudPorNumero();
+                break;
+            case 13:
+                gestor.aprobarRechazarSolicitud();
+                break;
+            case 14:
+                gestor.calcularTotalSolicitud();
+                break;
+            case 15:
+                System.out.println("Saliendo del sistema. ¡Hasta pronto!");
+                break;
+            default:
+                System.out.println("Opción no válida. Intente de nuevo.");
+                break;
         }
     }
 
