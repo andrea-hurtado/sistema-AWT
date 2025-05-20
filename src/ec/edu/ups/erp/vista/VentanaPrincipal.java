@@ -26,5 +26,4 @@ public class VentanaPrincipal extends Frame {
 
     }
 
-
 }
