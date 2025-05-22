@@ -231,4 +231,34 @@ public class GestorCompras {
         }
         return null;
     }
+
+public String obtenerListaProductos() {
+    if (productos.isEmpty()) {
+        return "No hay productos registrados.";
+    }
+    StringBuilder sb = new StringBuilder("Lista de productos:\n\n");
+    for (Producto p : productos) {
+        sb.append(p.toString()).append("\n");
+    }
+    return sb.toString();
+}
+
+public String obtenerListaProveedores() {
+    if (proveedores.isEmpty()) {
+        return "No hay proveedores registrados.";
+    }
+    StringBuilder sb = new StringBuilder("Lista de proveedores:\n\n");
+    for (Proveedor p : proveedores) {
+        sb.append(p.toString()).append("\n");
+    }
+    return sb.toString();
+}
+
+public void agregarProducto(Producto producto) {
+    productos.add(producto);
+}
+
+public void agregarProveedor(Proveedor proveedor) {
+    proveedores.add(proveedor);
+}
 }

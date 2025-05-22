@@ -30,6 +30,12 @@ public class VentanaPrincipal extends Frame {
         botonRegistarUsuario = new Button ("Registrar Usuario");
         botonsalir = new Button ("Salir");
 
+        botonSesion.addActionListener(e -> {
+            VentanaInicioSesion ventanaInicioSesion = new VentanaInicioSesion();
+            ventanaInicioSesion.setVisible(true);
+            dispose();
+        });
+
         panelSesion.add(botonSesion);
         panelSesion.add(botonRegistarUsuario);
         panelSesion.add(botonsalir);
