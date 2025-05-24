@@ -29,6 +29,7 @@ public class VentanaSolicitudCompra extends Frame {
 
         setTitle("Nueva Solicitud de Compra");
         setSize(500, 400);
+        setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
 
         panelSuperior = new Panel(new GridLayout(2, 2, 5, 5));
