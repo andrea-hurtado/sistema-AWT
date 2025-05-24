@@ -1,7 +1,9 @@
 package ec.edu.ups.erp.vista;
 
-import ec.edu.ups.erp.controllers.GestorCompras;
+import ec.edu.ups.erp.model.GestorCompras;
 import ec.edu.ups.erp.model.Producto;
+import ec.edu.ups.erp.model.SolicitudCompra;
+
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -25,10 +27,10 @@ public class VentanaAgregarProducto extends Frame{
     private GestorCompras gestor;
 
     public VentanaAgregarProducto(GestorCompras gestorCompras){
-        this.gestor = new GestorCompras();
+        this.gestor =  gestorCompras;
 
         setTitle("Agregar Producto");
-        setSize(350, 280);
+        setSize(350, 300);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(5,5));
 
@@ -81,14 +83,15 @@ public class VentanaAgregarProducto extends Frame{
 
         setResizable(false);
 
+        botonCancelar.addActionListener(e -> dispose());
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 dispose();
             }
         });
-
-        setResizable(false);
+    setResizable(false);
     }
 
     private void guardarProducto() {
@@ -98,23 +101,34 @@ public class VentanaAgregarProducto extends Frame{
         String cantidadStr = txtCantidad.getText().trim();
 
         if (id.isEmpty() || nombre.isEmpty() || precioStr.isEmpty() || cantidadStr.isEmpty()) {
-            mostrarMensaje("Por favor, complete todos los campos");
+            mostrarMensaje("Por favor, complete todos los campos necesarios");
             return;
         }
 
         try {
             double precio = Double.parseDouble(precioStr);
+            int cantidad = Integer.parseInt(cantidadStr);
+
             Producto producto = new Producto(id, nombre, precio);
             gestor.agregarProducto(producto);
+
+            if (gestor.getSolicitudes().isEmpty()) {
+                SolicitudCompra solicitud = new SolicitudCompra("SOL-" + System.currentTimeMillis());
+                solicitud.agregarProducto(producto, cantidad);
+                gestor.agregarSolicitud(solicitud);
+            } else {
+                gestor.getSolicitudes().get(0).agregarProducto(producto, cantidad);
+            }
+
             mostrarMensaje("Producto agregado exitosamente");
             limpiarCampos();
         } catch (NumberFormatException e) {
-            mostrarMensaje("El precio debe ser un número válido");
+            mostrarMensaje("El precio y la cantidad deben ser números válidos");
         }
     }
 
 
-    private void limpiarCampos() {
+private void limpiarCampos() {
         txtId.setText("");
         txtNombre.setText("");
         txtPrecio.setText("");

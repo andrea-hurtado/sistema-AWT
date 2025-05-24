@@ -1,5 +1,7 @@
 package ec.edu.ups.erp.vista;
 
+import ec.edu.ups.erp.model.GestorUsuarios;
+
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -13,7 +15,12 @@ public class VentanaPrincipal extends Frame {
     private Button botonRegistarUsuario;
     private Button botonsalir;
 
+    private GestorUsuarios gestorUsuarios;
+
+
     public VentanaPrincipal() {
+        this.gestorUsuarios = GestorUsuarios.getInstance();
+
         setTitle("--Sistema AWT--");
         setSize(300, 300);
         setLocationRelativeTo(null);
@@ -31,8 +38,14 @@ public class VentanaPrincipal extends Frame {
         botonsalir = new Button ("Salir");
 
         botonSesion.addActionListener(e -> {
-            VentanaInicioSesion ventanaInicioSesion = new VentanaInicioSesion();
+            VentanaInicioSesion ventanaInicioSesion = new VentanaInicioSesion(gestorUsuarios);
             ventanaInicioSesion.setVisible(true);
+            dispose();
+        });
+
+        botonRegistarUsuario.addActionListener(e -> {
+            VentanaRegistroUsuario ventanaRegistro = new VentanaRegistroUsuario(gestorUsuarios);
+            ventanaRegistro.setVisible(true);
             dispose();
         });
 
@@ -44,6 +57,8 @@ public class VentanaPrincipal extends Frame {
         add(panelContenedor);
 
         setVisible(true);
+
+        botonsalir.addActionListener(e -> System.exit(0));
 
         addWindowListener(new WindowAdapter() {
             @Override
