@@ -1,6 +1,6 @@
 package ec.edu.ups.erp.vista;
 
-import ec.edu.ups.erp.controllers.GestorCompras;
+import ec.edu.ups.erp.model.GestorCompras;
 import ec.edu.ups.erp.model.Proveedor;
 
 import java.awt.*;
@@ -18,11 +18,11 @@ public class VentanaAgregarProveedor extends Frame{
     private Label labelNombre;
     private GestorCompras gestor;
 
-    public VentanaAgregarProveedor(GestorCompras gestorCompras){
-        this.gestor = new GestorCompras();
+    public VentanaAgregarProveedor(GestorCompras gestorCompras) {
+        this.gestor = gestorCompras;
 
         setTitle("Agregar Proveedor");
-        setSize(300, 200);
+        setSize(350, 300);
         setLocationRelativeTo(null);
         setLayout(new FlowLayout());
 
@@ -55,13 +55,14 @@ public class VentanaAgregarProveedor extends Frame{
 
         setVisible(true);
 
+        botonCancelar.addActionListener(e -> dispose());
+
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 dispose();
             }
         });
-
     }
     private void guardarProveedor() {
         String id = txtId.getText().trim();
@@ -73,8 +74,10 @@ public class VentanaAgregarProveedor extends Frame{
         }
 
         Proveedor proveedor = new Proveedor(id, nombre);
+        gestor.agregarProveedor(proveedor);
         mostrarMensaje("Proveedor agregado exitosamente");
         limpiarCampos();
+
     }
     private void limpiarCampos() {
         txtId.setText("");

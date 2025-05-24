@@ -1,6 +1,6 @@
 package ec.edu.ups.erp.vista;
 
-import ec.edu.ups.erp.controllers.GestorCompras;
+import ec.edu.ups.erp.model.GestorCompras;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -25,10 +25,10 @@ public class VentanaMenu extends Frame {
     private GestorCompras gestor;
 
     public VentanaMenu(){
-        this.gestor = new GestorCompras();
+        this.gestor =  GestorCompras.getInstance();
 
         setTitle("Menu Principal");
-        setSize(300, 200);
+        setSize(300, 300);
         setLocationRelativeTo(null);
         setLayout(new GridLayout(3, 1, 10 , 10));
 
@@ -36,8 +36,6 @@ public class VentanaMenu extends Frame {
         panelbotonesListar = new Panel(new FlowLayout());
         panelbotonesCrear = new Panel(new FlowLayout());
 
-
-        //Panel para Agregar prouctos y proveedores
         panelAgregar = new Panel(new BorderLayout(5, 5));
         labelAgregar = new Label("Agregar", Label.CENTER);
 
@@ -61,7 +59,6 @@ public class VentanaMenu extends Frame {
         panelListar.add(labelListar, BorderLayout.NORTH);
         panelListar.add(panelbotonesListar, BorderLayout.CENTER);
 
-        //Panel para crear solicitus de compra
         panelCrear = new Panel(new BorderLayout(5, 5));
         labelCrear = new Label("Crear", Label.CENTER);
 
@@ -72,14 +69,15 @@ public class VentanaMenu extends Frame {
         panelCrear.add(panelbotonesCrear, BorderLayout.CENTER);
 
         botonAgregarProducto.addActionListener(e -> {
-            VentanaAgregarProducto ventanaProducto = new VentanaAgregarProducto(gestor);
+            VentanaAgregarProducto ventanaProducto = new VentanaAgregarProducto(this.gestor);
             ventanaProducto.setVisible(true);
         });
 
         botonAgregarProveedor.addActionListener(e -> {
-            VentanaAgregarProveedor ventanaProveedor = new VentanaAgregarProveedor(gestor);
+            VentanaAgregarProveedor ventanaProveedor = new VentanaAgregarProveedor(this.gestor);
             ventanaProveedor.setVisible(true);
         });
+
 
         botonListarProducto.addActionListener(e -> {
             mostrarMensaje("Lista de Productos", gestor.obtenerListaProductos());
@@ -90,8 +88,8 @@ public class VentanaMenu extends Frame {
         });
 
         botonCrearSolicitud.addActionListener(e -> {
-            // Aquí agregarás la lógica para crear solicitudes
-            mostrarMensaje("Aviso", "Función en desarrollo");
+            VentanaSolicitudCompra ventanaSolicitud = new VentanaSolicitudCompra(this.gestor);
+            ventanaSolicitud.setVisible(true);
         });
 
         add(panelAgregar);
@@ -107,29 +105,35 @@ public class VentanaMenu extends Frame {
             }
         });
 
-
     }
 
     private void mostrarMensaje(String titulo, String mensaje) {
         Dialog dialogo = new Dialog(this, titulo, true);
-        dialogo.setLayout(new FlowLayout());
-        dialogo.setSize(250, 100);
+        dialogo.setLayout(new BorderLayout(10, 10));
+        dialogo.setSize(400, 300); // Ventana más grande
         dialogo.setLocationRelativeTo(null);
 
-        TextArea textArea = new TextArea(mensaje, 10, 50, TextArea.SCROLLBARS_VERTICAL_ONLY);
+        Panel panelContenido = new Panel(new BorderLayout(5, 5));
+        TextArea textArea = new TextArea(mensaje, 10, 40, TextArea.SCROLLBARS_VERTICAL_ONLY);
         textArea.setEditable(false);
+        panelContenido.add(textArea, BorderLayout.CENTER);
 
         Panel panelBoton = new Panel(new FlowLayout(FlowLayout.CENTER));
         Button botonOk = new Button("OK");
-
+        botonOk.setPreferredSize(new Dimension(80, 25)); // Botón más grande
         botonOk.addActionListener(e -> dialogo.dispose());
-
         panelBoton.add(botonOk);
 
-        dialogo.add(textArea, BorderLayout.CENTER);
+        dialogo.add(panelContenido, BorderLayout.CENTER);
         dialogo.add(panelBoton, BorderLayout.SOUTH);
 
-        dialogo.setVisible(true);
+        dialogo.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                dialogo.dispose();
+            }
+        });
 
+        dialogo.setVisible(true);
     }
 }

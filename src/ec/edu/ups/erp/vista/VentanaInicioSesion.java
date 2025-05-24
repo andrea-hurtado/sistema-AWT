@@ -1,5 +1,7 @@
 package ec.edu.ups.erp.vista;
 
+import ec.edu.ups.erp.model.GestorUsuarios;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -12,8 +14,11 @@ public class VentanaInicioSesion extends Frame{
     private Panel panelBotones;
     private Label labelUsuario;
     private Label labelContraseña;
+    private GestorUsuarios gestorUsuarios;
 
-    public VentanaInicioSesion(){
+    public VentanaInicioSesion(GestorUsuarios gestorUsuarios) {
+        this.gestorUsuarios = gestorUsuarios;
+
         setTitle("Inicio de Sesión");
         setSize(300, 200);
         setLocationRelativeTo(null);
@@ -41,20 +46,22 @@ public class VentanaInicioSesion extends Frame{
         panelBotones.add(botonIngresar);
         panelBotones.add(botonSalir);
 
-        botonIngresar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String usuario = txtUsuario.getText().trim();
-                String contraseña = txtContraseña.getText().trim();
+        botonIngresar.addActionListener(e -> {
+            String usuario = txtUsuario.getText().trim();
+            String contraseña = txtContraseña.getText().trim();
 
-                if (usuario.isEmpty() || contraseña.isEmpty()) {
-                    mostrarMensaje("Por favor, complete todos los campos");
-                    return;
-                }
+            if (usuario.isEmpty() || contraseña.isEmpty()) {
+                mostrarMensaje("Error", "Por favor, complete todos los campos");
+                return;
+            }
 
+            if (gestorUsuarios.validarCredenciales(usuario, contraseña)) {
                 VentanaMenu menu = new VentanaMenu();
                 menu.setVisible(true);
                 dispose();
+            } else {
+                mostrarMensaje("Error", "Usuario o contraseña incorrectos");
+                txtContraseña.setText("");
             }
         });
 
@@ -83,9 +90,8 @@ public class VentanaInicioSesion extends Frame{
 
         });
     }
-
-    private void mostrarMensaje(String mensaje) {
-        Dialog dialogo = new Dialog(this, "Mensaje", true);
+    private void mostrarMensaje(String titulo, String mensaje) {
+        Dialog dialogo = new Dialog(this, titulo, true);
         dialogo.setLayout(new FlowLayout());
         dialogo.setSize(250, 100);
         dialogo.setLocationRelativeTo(null);

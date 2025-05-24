@@ -30,6 +30,6 @@ public class Producto implements Calculable {
 
     @Override
     public String toString() {
-        return "Producto [ID=" + id + ", Nombre=" + nombre + ", Precio Unitario=$" + precioUnitario + "]";
+        return "Producto: " + nombre + " (ID: " + id + ") - Precio: $" + precioUnitario;
     }
 }
