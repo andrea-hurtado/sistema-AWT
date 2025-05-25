@@ -1,4 +1,3 @@
-
 package ec.edu.ups.erp.vista;
 
 import ec.edu.ups.erp.model.GestorCompras;
@@ -6,6 +5,7 @@ import ec.edu.ups.erp.model.GestorCompras;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import ec.edu.ups.erp.model.GestorEmpleados;
 
 public class VentanaMenu extends Frame {
     private Panel panelAgregar;
@@ -21,36 +21,44 @@ public class VentanaMenu extends Frame {
     private Button botonCrearSolicitud;
     private Button botonGestionarEstados;
     private GestorCompras gestor;
+    private Button botonAgregarEmpleado;
+    private Button botonListarEmpleado;
+    private GestorEmpleados gestorEmpleados;
 
     public VentanaMenu(){
         this.gestor = GestorCompras.getInstance();
+        this.gestorEmpleados = GestorEmpleados.getInstance();
 
         setTitle("Menu Principal");
-        setSize(300, 300);
+        setSize(300, 400);
         setLocationRelativeTo(null);
         setLayout(new GridLayout(3, 1, 10, 10));
 
         panelAgregar = new Panel(new BorderLayout(5, 5));
         labelAgregar = new Label("Agregar", Label.CENTER);
-        Panel panelBotonesAgregarVertical = new Panel(new GridLayout(2, 1, 5, 5));
+        Panel panelBotonesAgregarVertical = new Panel(new GridLayout(3, 1, 5, 5));
 
         botonAgregarProducto = new Button("Producto");
         botonAgregarProveedor = new Button("Proveedor");
+        botonAgregarEmpleado = new Button("Empleado");
 
         panelBotonesAgregarVertical.add(botonAgregarProducto);
         panelBotonesAgregarVertical.add(botonAgregarProveedor);
+        panelBotonesAgregarVertical.add(botonAgregarEmpleado);
         panelAgregar.add(labelAgregar, BorderLayout.NORTH);
         panelAgregar.add(panelBotonesAgregarVertical, BorderLayout.CENTER);
 
         panelListar = new Panel(new BorderLayout(5, 5));
         labelListar = new Label("Listar", Label.CENTER);
-        Panel panelBotonesListarVertical = new Panel(new GridLayout(2, 1, 5, 5));
+        Panel panelBotonesListarVertical = new Panel(new GridLayout(3, 1, 5, 5));
 
         botonListarProducto = new Button("Producto");
         botonListarProveedor = new Button("Proveedor");
+        botonListarEmpleado = new Button("Empleado");
 
         panelBotonesListarVertical.add(botonListarProducto);
         panelBotonesListarVertical.add(botonListarProveedor);
+        panelBotonesListarVertical.add(botonListarEmpleado);
         panelListar.add(labelListar, BorderLayout.NORTH);
         panelListar.add(panelBotonesListarVertical, BorderLayout.CENTER);
 
@@ -96,6 +104,16 @@ public class VentanaMenu extends Frame {
                 VentanaGestionEstados ventanaEstados = new VentanaGestionEstados(gestor);
                 ventanaEstados.setVisible(true);
             }
+        });
+
+        botonAgregarEmpleado.addActionListener(e -> {
+            VentanaAgregarEmpleado ventanaEmpleado = new VentanaAgregarEmpleado();
+            ventanaEmpleado.setVisible(true);
+        });
+
+        botonListarEmpleado.addActionListener(e -> {
+            VentanaListarEmpleados ventana = new VentanaListarEmpleados();
+            ventana.setVisible(true);
         });
 
         add(panelAgregar);
