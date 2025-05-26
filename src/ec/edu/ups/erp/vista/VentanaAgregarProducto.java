@@ -91,7 +91,7 @@ public class VentanaAgregarProducto extends Frame{
                 dispose();
             }
         });
-    setResizable(false);
+        setResizable(false);
     }
 
     private void guardarProducto() {
@@ -128,7 +128,7 @@ public class VentanaAgregarProducto extends Frame{
     }
 
 
-private void limpiarCampos() {
+    private void limpiarCampos() {
         txtId.setText("");
         txtNombre.setText("");
         txtPrecio.setText("");
